@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <Button
+        android:id="@+id/go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Go"
+        tools:context=".MainActivity" />
+
+    <EditText
+        android:id="@+id/cmds"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/go"
+        android:layout_alignParentBottom="true"
+        android:inputType="textFilter|textVisiblePassword"
+        android:text="50,50,200,200"
+        tools:context=".MainActivity" />
+
+    <com.alimuzaffar.turtledraw.DrawView
+        android:id="@+id/drawView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/cmds"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@android:color/white"
+        android:scrollbars="vertical" />
+
+</RelativeLayout>
