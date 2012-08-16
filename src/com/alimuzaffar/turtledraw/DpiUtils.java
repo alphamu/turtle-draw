@@ -1,6 +1,8 @@
 package com.alimuzaffar.turtledraw;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 public class DpiUtils {
@@ -10,4 +12,14 @@ public class DpiUtils {
       return value;
 
    }
+   
+   public static int getDpiFromPx(Activity activity, int dp) {
+	   DisplayMetrics metrics = new DisplayMetrics();
+	   activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+	   float logicalDensity = metrics.density;
+	   return (int) (dp * logicalDensity + 0.5);
+   }
+   
 }
+
+

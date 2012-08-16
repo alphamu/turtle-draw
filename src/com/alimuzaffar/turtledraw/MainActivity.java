@@ -116,6 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		Log.i(tag, "curX = " + curX + ", curY = "+curY);
 		Log.i(tag, "nextX = " + nextX + ", nextY = "+nextY);
 
+		//subtract because in CS the point (0,0) is top left
 		curX -= nextX;
 		curY -= nextY;
 		
