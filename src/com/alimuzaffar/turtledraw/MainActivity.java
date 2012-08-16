@@ -3,19 +3,20 @@ package com.alimuzaffar.turtledraw;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends Activity implements View.OnClickListener {
+	public static final String tag = "MainActivity";
+	DrawView drawView;
 
-	DrawView	drawView;
+	EditText cmds;
 
-	EditText	cmds;
-
-	float		curX	= 0f;
-	float		curY	= 0f;
-	float		curTurn	= 0f;
+	float curX = 0f;
+	float curY = 0f;
+	float curTurn = 0f;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,8 +34,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			// as a test draw an X in the center of the screen.
 			drawView.addLine(curX, curY, curX + 20, curY + 20);
 			drawView.addLine(curX + 20, curY + 0, curX + 0, curY + 20);
-		}			
-			
+		}
+
 		cmds = (EditText) findViewById(R.id.cmds);
 		Button go = (Button) findViewById(R.id.go);
 		go.setOnClickListener(this);
@@ -47,8 +48,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		super.onRestoreInstanceState(savedInstanceState);
 
 		int i = 0;
-		while (savedInstanceState.getFloatArray(String.valueOf(String.valueOf(i))) != null) {
-			float[] l = savedInstanceState.getFloatArray(String.valueOf(String.valueOf(i)));
+		while (savedInstanceState.getFloatArray(String.valueOf(String
+				.valueOf(i))) != null) {
+			float[] l = savedInstanceState.getFloatArray(String.valueOf(String
+					.valueOf(i)));
 			drawView.addLine(l);
 			i++;
 		}
@@ -74,12 +77,59 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		String text = cmds.getText().toString();
 		String[] points = text.split(",");
 		float[] line = new float[points.length];
-		for (int i = 0; i < points.length; i++) {
-			line[i] = Float.parseFloat(points[i]);
-		}
+//		for (int i = 0; i < points.length; i++) {
+//			line[i] = Float.parseFloat(points[i]);
+//		}
+		Log.i(tag, "Forward 100");
+		forward(0, 100);
+		Log.i(tag, "Left 90 Forward 100");
+		forward(90, 100);
+		Log.i(tag, "Left 90 Forward 100");
+		forward(90, 100);
+		Log.i(tag, "Left 90 Forward 100");
+		forward(90, 100);
+		Log.i(tag, "Forward 100");
+		forward(0, 100);
+
+		Log.i(tag, "Forward 100");
+		forward(0, 100);
+		Log.i(tag, "Right 90 Forward 100");
+		forward(360-90, 100);
+		Log.i(tag, "Right 90 Forward 100");
+		forward(360-90, 100);
+		Log.i(tag, "Right 90 Forward 100");
+		forward(360-90, 100);
+		Log.i(tag, "Forward 100");
+		forward(0, 100);
+		
 		drawView.addLine(line);
 		drawView.invalidate();
 
+	}
+
+	public void forward(float turn, float distance) {
+		curTurn = (curTurn + turn)%360;
+		float nextX = getNextX((float)Math.toRadians(curTurn), distance);
+		float nextY = getNextY((float)Math.toRadians(curTurn), distance);
+
+		drawView.addLine(curX, curY, curX-nextX, curY-nextY);
+		Log.i(tag, "curX = " + curX + ", curY = "+curY);
+		Log.i(tag, "nextX = " + nextX + ", nextY = "+nextY);
+
+		curX -= nextX;
+		curY -= nextY;
+		
+
+		Log.i(tag, "NEW X = " + curX + ", NEW Y = "+curY);
+	}
+
+	public float getNextX(float turn, float distance) {
+		return android.util.FloatMath.sin(turn) * distance;
+			
+	}
+
+	public float getNextY(float turn, float distance) {
+		return android.util.FloatMath.cos(turn) * distance;
 	}
 
 }
